@@ -26,9 +26,8 @@ const Sidebar = () => {
     navigate('/login');
   };
 
-  // Hide sidebar on auth pages or public volunteer page when not logged in
+  // Hide sidebar on auth pages
   if (['/login', '/register'].includes(location.pathname)) return null;
-  if (!isAuthenticated && location.pathname === '/volunteer') return null;
 
   return (
     <div className="w-64 h-screen fixed top-0 left-0 flex flex-col z-20"
@@ -105,8 +104,7 @@ const Sidebar = () => {
 };
 
 const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem('token');
-  if (!token) return <Navigate to="/login" />;
+  // Auth bypassed for Vercel demo
   return children;
 };
 
@@ -115,7 +113,7 @@ const MainContent = () => {
   const location = useLocation();
   const isAuthenticated = !!localStorage.getItem('token');
   const isAuthPage = ['/login', '/register'].includes(location.pathname);
-  const hideSidebar = isAuthPage || (!isAuthenticated && location.pathname === '/volunteer');
+  const hideSidebar = isAuthPage;
   
   return (
     <div className="flex min-h-screen">
